@@ -1,0 +1,31 @@
+==Loading an 8x8 gb tile (2bpp)==
+Each 8x8 tile has 16 bytes
+Each row has 2 bytes (16 bits)
+Convert the bytes to binary (FF = 11111111)
+The 2nd set of bits (second bitplane) goes on top.
+
+Example: In a hex editor, you see AA BB. You'd read it in binary as:
+bbbbbbbb
+aaaaaaaa
+
+You'll have a palette (4 index)
+palette[0] = color1
+palette[1] = color2
+palette[2] = color3
+palette[3] = color4
+
+Combine the above values vertically
+ba ba ba ba ba ba ba ba
+
+When converting the binary values back into decimal, you'll have your palette index in binary.
+Example
+00101100
+11110110
+
+01 01 11 01 10 11 01 00
+
+FINAL: 01 01 03 01 02 03 01 00
+
+Repeat until a full 8x8 tile is assembled.
+
+Credits: Lin (For writing), MathOnNapkins (For teaching)

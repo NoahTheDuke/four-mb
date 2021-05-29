@@ -1,0 +1,16 @@
+[package]
+name = "four-mb"
+version = "0.1.0"
+authors = ["Noah Bogart <noah.bogart@hey.com>"]
+edition = "2018"
+
+[dependencies]
+macroquad = "0.3"
+macroquad-tiled = "0.1"
+bitvec = "0.20"
+
+[profile.release]
+# opt-level = "z"
+# lto = true
+# codegen-units = 1
+# panic = "abort"

@@ -1,5 +1,4 @@
 use bitvec::{prelude::Msb0, view::BitView};
-use lib::prelude::TILES;
 use macroquad::prelude::*;
 
 #[rustfmt::skip]
@@ -8,7 +7,7 @@ static PALETTE: [[macroquad::color::Color; 2]; 2] = [
     [DARKGRAY, BLACK],
 ];
 
-fn render_tile(tile: &[u8]) -> [macroquad::color::Color; 256] {
+fn render_tile(tile: Vec<&u8>) -> [macroquad::color::Color; 256] {
     let mut tile_arr = [WHITE; 256];
 
     for (row_idx, cur) in tile.chunks(2).enumerate() {
@@ -38,8 +37,8 @@ fn window_conf() -> Conf {
 #[macroquad::main(window_conf)]
 async fn main() {
     let origin = screen_width() / 2.0;
-
-    let tile = render_tile(&TILES[0..32]);
+    let tileset = include_bytes!("../../assets/dungeon.2bpp");
+    let tile = render_tile(tileset[0..16].iter().collect::<Vec<_>>());
     loop {
         clear_background(WHITE);
 

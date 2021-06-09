@@ -54,10 +54,9 @@ fn load_tilesheet(path: &str, col_size: usize, row_size: usize) -> Vec<Vec<Color
     tiles
 }
 
-fn convert_tilesheet_to_hex(tilesheet: Vec<Vec<Color>>) -> Vec<Vec<u8>> {
-    let mut tiles = Vec::with_capacity(16);
+fn convert_tilesheet_to_hex(tilesheet: Vec<Vec<Color>>) -> Vec<u8> {
+    let mut tiles = Vec::new();
     for tile in tilesheet.iter() {
-        let mut line_vec = Vec::with_capacity(64);
         for line in tile.chunks(8) {
             let mut low: BitArray<Msb0, [u8; 1]> = BitArray::zeroed();
             let mut high: BitArray<Msb0, [u8; 1]> = BitArray::zeroed();
@@ -82,10 +81,9 @@ fn convert_tilesheet_to_hex(tilesheet: Vec<Vec<Color>>) -> Vec<Vec<u8>> {
                     }
                 }
             }
-            line_vec.push(low.load::<u8>());
-            line_vec.push(high.load::<u8>());
+            tiles.push(low.load::<u8>());
+            tiles.push(high.load::<u8>());
         }
-        tiles.push(line_vec);
     }
     tiles
 }
@@ -97,7 +95,6 @@ fn create_static_tilesheet() {
     let tiles = convert_tilesheet_to_hex(tilesheet);
     let result = tiles
         .iter()
-        .flat_map(|tile| tile.iter().collect::<Vec<_>>())
         .enumerate()
         .map(|(idx, tile_str)| format!("    // TILE{:02}\n    {},", idx, tile_str))
         .collect::<Vec<_>>()

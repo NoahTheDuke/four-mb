@@ -1,0 +1,10 @@
+{
+    "automappingRulesFile": "",
+    "commands": [
+    ],
+    "extensionsPath": "laz/extensions",
+    "folders": [
+        "."
+    ],
+    "objectTypesFile": ""
+}

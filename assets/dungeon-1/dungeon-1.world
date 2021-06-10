@@ -1,0 +1,11 @@
+{
+    "patterns": [
+        {
+            "regexp": "(\\d)-(\\d).json",
+            "multiplierX": 160,
+            "multiplierY": 128
+        }
+    ],
+    "onlyShowAdjacentMaps": false,
+    "type": "world"
+}

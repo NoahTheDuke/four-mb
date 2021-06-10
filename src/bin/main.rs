@@ -2,12 +2,12 @@ use bitvec::{prelude::Msb0, view::BitView};
 use macroquad::prelude::*;
 
 #[rustfmt::skip]
-static PALETTE: [[macroquad::color::Color; 2]; 2] = [
+static PALETTE: [[Color; 2]; 2] = [
     [WHITE, LIGHTGRAY],
     [DARKGRAY, BLACK],
 ];
 
-fn render_tile(tile: Vec<&u8>) -> [macroquad::color::Color; 256] {
+fn render_tile(tile: Vec<&u8>) -> [Color; 256] {
     let mut tile_arr = [WHITE; 256];
 
     for (row_idx, cur) in tile.chunks(2).enumerate() {

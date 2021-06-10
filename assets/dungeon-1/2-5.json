@@ -1,0 +1,44 @@
+{ "compressionlevel":-1,
+ "height":8,
+ "infinite":false,
+ "layers":[
+        {
+         "data":[34, 12, 12, 12, 12, 12, 12, 12, 12, 12, 34, 12, 12, 12, 12, 12, 12, 12, 12, 12, 34, 12, 12, 12, 12, 12, 12, 12, 12, 12, 34, 12, 12, 12, 12, 12, 12, 12, 12, 12, 34, 12, 12, 12, 12, 12, 12, 12, 12, 12, 34, 12, 12, 12, 12, 12, 12, 12, 12, 12, 34, 12, 12, 12, 12, 12, 12, 12, 12, 12, 42, 43, 43, 43, 43, 43, 43, 43, 43, 43],
+         "height":8,
+         "id":1,
+         "name":"template-LB",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":true,
+         "width":10,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "data":[0, 0, 0, 0, 0, 0, 0, 0, 33, 22, 0, 0, 0, 4, 0, 0, 4, 0, 45, 51, 0, 0, 0, 4, 0, 0, 4, 0, 29, 0, 0, 0, 7, 0, 0, 0, 0, 7, 0, 0, 38, 0, 5, 0, 0, 0, 0, 5, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 10, 10, 7, 7, 7, 0, 0, 0, 0, 0, 12, 43, 0, 0, 0, 0],
+         "height":8,
+         "id":2,
+         "name":"layout",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":true,
+         "width":10,
+         "x":0,
+         "y":0
+        }],
+ "nextlayerid":3,
+ "nextobjectid":1,
+ "orientation":"orthogonal",
+ "renderorder":"right-down",
+ "tiledversion":"1.7.0",
+ "tileheight":16,
+ "tilesets":[
+        {
+         "firstgid":1,
+         "source":"..\/dungeon-blocks.tsx"
+        }],
+ "tilewidth":16,
+ "type":"map",
+ "version":"1.6",
+ "width":10
+}

@@ -2,7 +2,8 @@ use bitvec::{
     field::BitField,
     prelude::{BitArray, Msb0},
 };
-use bmp::Pixel;
+use macroquad::{prelude::ImageFormat, texture::Image};
+use std::fs;
 
 #[derive(Debug, Clone, Copy)]
 enum Color {
@@ -12,42 +13,35 @@ enum Color {
     Black,
 }
 
-fn load_tile(img: &bmp::Image, col: usize, row: usize) -> Vec<Color> {
-    let mut tile = Vec::with_capacity(64);
-    for y in 0..8 {
-        for x in 0..8 {
-            let py = (col * 8) + y;
-            let px = (row * 8) + x;
-            let pixel = img.get_pixel(px as u32, py as u32);
-            tile.push(match pixel {
-                Pixel { r: 0, g: 0, b: 0 } => Color::Black,
-                Pixel {
-                    r: 85,
-                    g: 85,
-                    b: 85,
-                } => Color::Dark,
-                Pixel {
-                    r: 170,
-                    g: 170,
-                    b: 170,
-                } => Color::Light,
-                Pixel {
-                    r: 255,
-                    g: 255,
-                    b: 255,
-                } => Color::White,
-                _ => panic!("{:?}", pixel),
-            });
-        }
-    }
-    tile
+fn load_tile(img: &Image, col: usize, row: usize) -> Vec<Color> {
+    (0..8)
+        .flat_map(|y| {
+            (0..8).map(move |x| {
+                let py = (row * 8) + y;
+                let px = (col * 8) + x;
+                let pixel = img.get_pixel(px as u32, py as u32);
+                if pixel.r < 0.2 {
+                    Color::Black
+                } else if pixel.r < 0.4 {
+                    Color::Dark
+                } else if pixel.r < 0.7 {
+                    Color::Light
+                } else {
+                    Color::White
+                }
+            })
+        })
+        .collect()
 }
 
-fn load_tilesheet(path: &str, col_size: usize, row_size: usize) -> Vec<Vec<Color>> {
-    let img = bmp::open(path).unwrap_or_else(|e| panic!("Failed to open: {}", e));
-    let mut tiles = Vec::with_capacity(col_size * row_size);
-    for col in 0..col_size {
-        for row in 0..row_size {
+fn load_tilesheet() -> Vec<Vec<Color>> {
+    let img_bytes = include_bytes!("../../assets/dungeon.png");
+    let img = Image::from_file_with_format(img_bytes, Some(ImageFormat::Png));
+    let width = img.width() / 8;
+    let height = img.height() / 8;
+    let mut tiles = Vec::with_capacity(width * height);
+    for row in 0..height {
+        for col in 0..width {
             tiles.push(load_tile(&img, col, row));
         }
     }
@@ -89,18 +83,9 @@ fn convert_tilesheet_to_hex(tilesheet: Vec<Vec<Color>>) -> Vec<u8> {
 }
 
 fn create_static_tilesheet() {
-    let width = 8;
-    let height = 8;
-    let tilesheet = load_tilesheet("assets/dungeon.bmp", height, width);
+    let tilesheet = load_tilesheet();
     let tiles = convert_tilesheet_to_hex(tilesheet);
-    let result = tiles
-        .iter()
-        .enumerate()
-        .map(|(idx, tile_str)| format!("    // TILE{:02}\n    {},", idx, tile_str))
-        .collect::<Vec<_>>()
-        .join("\n");
-
-    println!("pub static TILES: [u8; 1024] = [\n{}\n];", result);
+    fs::write("assets/dungeon.2bpp", tiles).expect("Unable to write file");
 }
 
 fn main() {

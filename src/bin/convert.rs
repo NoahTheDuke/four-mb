@@ -35,7 +35,7 @@ fn load_tile(img: &Image, col: usize, row: usize) -> Vec<Color> {
 }
 
 fn load_tilesheet() -> Vec<Vec<Color>> {
-    let img_bytes = include_bytes!("../../assets/dungeon.png");
+    let img_bytes = include_bytes!("../../assets/parts.png");
     let img = Image::from_file_with_format(img_bytes, Some(ImageFormat::Png));
     let width = img.width() / 8;
     let height = img.height() / 8;

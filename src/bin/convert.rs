@@ -3,7 +3,8 @@ use bitvec::{
     prelude::{BitArray, Msb0},
 };
 use macroquad::{prelude::ImageFormat, texture::Image};
-use std::fs;
+use std::ffi::OsStr;
+use std::{fs, io};
 
 #[derive(Debug, Clone, Copy)]
 enum Color {
@@ -34,9 +35,9 @@ fn load_tile(img: &Image, col: usize, row: usize) -> Vec<Color> {
         .collect()
 }
 
-fn load_tilesheet() -> Vec<Vec<Color>> {
-    let img_bytes = include_bytes!("../../assets/parts.png");
-    let img = Image::from_file_with_format(img_bytes, Some(ImageFormat::Png));
+fn load_tilesheet(path: &str) -> Result<Vec<Vec<Color>>, io::Error> {
+    let img_bytes = fs::read(path)?;
+    let img = Image::from_file_with_format(&img_bytes[..], Some(ImageFormat::Png));
     let width = img.width() / 8;
     let height = img.height() / 8;
     let mut tiles = Vec::with_capacity(width * height);
@@ -45,7 +46,7 @@ fn load_tilesheet() -> Vec<Vec<Color>> {
             tiles.push(load_tile(&img, col, row));
         }
     }
-    tiles
+    Ok(tiles)
 }
 
 fn convert_tilesheet_to_hex(tilesheet: Vec<Vec<Color>>) -> Vec<u8> {
@@ -82,12 +83,29 @@ fn convert_tilesheet_to_hex(tilesheet: Vec<Vec<Color>>) -> Vec<u8> {
     tiles
 }
 
-fn create_static_tilesheet() {
-    let tilesheet = load_tilesheet();
-    let tiles = convert_tilesheet_to_hex(tilesheet);
-    fs::write("assets/dungeon.2bpp", tiles).expect("Unable to write file");
+fn create_static_tilesheet() -> io::Result<()> {
+    let entries = fs::read_dir("assets")?
+        .map(|res| res.map(|e| e.path()))
+        .filter(|res| {
+            res.as_ref().map_or(false, |path| {
+                path.extension().unwrap_or(OsStr::new("")) == "png"
+            })
+        });
+
+    for entry in entries {
+        if let Ok(mut path) = entry {
+            let path_str = path.to_str().unwrap();
+            if let Ok(tilesheet) = load_tilesheet(path_str) {
+                let tiles = convert_tilesheet_to_hex(tilesheet);
+                path.set_extension("2bpp");
+                fs::write(path, tiles).expect("Unable to write file");
+            }
+        }
+    }
+
+    Ok(())
 }
 
-fn main() {
-    create_static_tilesheet();
+fn main() -> io::Result<()> {
+    create_static_tilesheet()
 }

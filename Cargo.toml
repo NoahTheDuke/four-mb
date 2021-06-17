@@ -8,6 +8,7 @@ default-run = "main"
 
 [dependencies]
 bitvec = "0.22.3"
+lazy_static = "1.4.0"
 macroquad = "0.3.5"
 
 [profile.release]

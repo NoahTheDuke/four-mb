@@ -1,12 +1,13 @@
 #![allow(dead_code)]
 
+use crate::constants::PARTS;
 use crate::part::*;
 use macroquad::color::Color as mColor;
-use std::convert::TryInto;
 use std::ops::Index;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct Tile {
+    pub name: usize,
     tl: Part,
     tr: Part,
     bl: Part,
@@ -14,16 +15,46 @@ pub struct Tile {
 }
 
 impl Tile {
-    pub fn new(tl: Part, tr: Part, bl: Part, br: Part) -> Tile {
-        Tile { tl, tr, bl, br }
+    pub fn new(name: usize, tl: Part, tr: Part, bl: Part, br: Part) -> Tile {
+        Tile {
+            name,
+            tl,
+            tr,
+            bl,
+            br,
+        }
     }
 
-    pub fn from_bytes(tl: &[u8; 16], tr: &[u8; 16], bl: &[u8; 16], br: &[u8; 16]) -> Tile {
+    pub fn from_bytes(
+        name: usize,
+        tl: &[u8; 16],
+        tr: &[u8; 16],
+        bl: &[u8; 16],
+        br: &[u8; 16],
+    ) -> Tile {
         Tile {
+            name,
             tl: Part::new(tl),
             tr: Part::new(tr),
             bl: Part::new(bl),
             br: Part::new(br),
+        }
+    }
+
+    pub fn from_tuple(name: usize, parts: &(usize, usize, usize, usize)) -> Tile {
+        let p1 = PARTS.get(&parts.0);
+        let p2 = PARTS.get(&parts.1);
+        let p3 = PARTS.get(&parts.2);
+        let p4 = PARTS.get(&parts.3);
+        match (p1, p2, p3, p4) {
+            (Some(p1), Some(p2), Some(p3), Some(p4)) => Tile {
+                name,
+                tl: *p1,
+                tr: *p2,
+                bl: *p3,
+                br: *p4,
+            },
+            _ => panic!("wtf {:?}", parts),
         }
     }
 }
@@ -103,7 +134,7 @@ mod tests {
             0u8, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255,
         ]);
         let br_part = Part::new(&[255u8; 16]);
-        let tile = Tile::new(tl_part, tr_part, bl_part, br_part);
+        let tile = Tile::new(0, tl_part, tr_part, bl_part, br_part);
 
         assert_eq!(tile[0], WHITE);
         assert_eq!(tile[9], LIGHTGRAY);

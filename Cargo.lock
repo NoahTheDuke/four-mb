@@ -294,6 +294,7 @@ name = "four-mb"
 version = "0.1.0"
 dependencies = [
  "bitvec",
+ "lazy_static",
  "macroquad",
 ]
 

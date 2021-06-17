@@ -1,3 +1,7 @@
+use crate::part::Part;
+use std::collections::HashMap;
+use std::convert::TryInto;
+
 /// The raw bytes of the colors in a full square. Each part is 8 bytes. The follow indices are
 /// given for each 16-byte chunk:
 ///
@@ -8,6 +12,31 @@
 /// 4: Control character to indicate part should not be rendered
 /// 5-7: Unused
 pub static COLORS: &'static [u8] = include_bytes!("../assets/colors.2bpp");
+
+/// The raw bytes of the dungeon floor images. Each part is 8 bytes. The follow indices are given
+/// for each 16-byte chunk:
+///
+/// 0-3: Dirt
+/// 4-7: Mosaic
+/// 8-11: Cracked
+pub static FLOORS: &'static [u8] = include_bytes!("../assets/floor-base.2bpp");
+
+/// The raw bytes of the dungeon wall images. Each part is 8 bytes. The follow indices are given
+/// for each 16-byte chunk:
+///
+/// 0-1: Top wall
+/// 2-3: Bottom wall
+/// 4-5: Left wall
+/// 6-7: Right wall
+/// 8-9: Top bombable wall
+/// 10-11: Bottom bombable wall
+/// 12-13: Left bombable wall
+/// 14-15: Right bombable wall
+/// 16-19: Top Left/Top Right/Bottom Left/Bottom Right upper inner corner
+/// 20-23: Top Left/Top Right/Bottom Left/Bottom Right lower inner corner
+/// 24-27: Top Left/Top Right/Bottom Left/Bottom Right upper outer corner
+/// 28-31: Top Left/Top Right/Bottom Left/Bottom Right lower outer corner
+pub static WALLS: &'static [u8] = include_bytes!("../assets/walls-base.2bpp");
 
 /// The raw bytes of the door images. Each part is 8 bytes. The following indices are given for
 /// each 16-byte chunk:
@@ -22,14 +51,6 @@ pub static COLORS: &'static [u8] = include_bytes!("../assets/colors.2bpp");
 /// 22-23: Right key base parts
 /// 24-27: Boss door
 pub static DOORS: &'static [u8] = include_bytes!("../assets/doors.2bpp");
-
-/// The raw bytes of the dungeon floor images. Each part is 8 bytes. The follow indices are given
-/// for each 16-byte chunk:
-///
-/// 0-3: Dirt
-/// 4-7: Mosaic
-/// 8-11: Cracked
-pub static FLOORS: &'static [u8] = include_bytes!("../assets/floor-base.2bpp");
 
 /// The raw bytes of the dungeon object images. Each part is 8 bytes. The follow indices are given
 /// for each 16-byte chunk:
@@ -55,25 +76,16 @@ pub static FLOORS: &'static [u8] = include_bytes!("../assets/floor-base.2bpp");
 /// 34-35: Left/right broken wall
 /// 36: Single part railing
 /// 37: Unused
+/// 38-41: Button
 pub static OBJECTS: &'static [u8] = include_bytes!("../assets/objects.2bpp");
 
-/// The raw bytes of the dungeon wall images. Each part is 8 bytes. The follow indices are given
-/// for each 16-byte chunk:
-///
-/// 0: Top upper wall
-/// 1: Bottom lower wall
-/// 2: Top lower wall
-/// 3: Bottom upper wall
-/// 4-5: Left wall
-/// 6-7: Right wall
-/// 8: Top upper bombable wall
-/// 9: Bottom lower bombable wall
-/// 10: Top lower bombable wall
-/// 11: Bottom upper bombable wall
-/// 12-13: Left bombable wall
-/// 14-15: Right bombable wall
-/// 16-19: Top Left/Top Right/Bottom Left/Bottom Right upper inner corner
-/// 20-23: Top Left/Top Right/Bottom Left/Bottom Right lower inner corner
-/// 24-27: Top Left/Top Right/Bottom Left/Bottom Right upper outer corner
-/// 28-31: Top Left/Top Right/Bottom Left/Bottom Right lower outer corner
-pub static WALLS: &'static [u8] = include_bytes!("../assets/walls-base.2bpp");
+lazy_static! {
+    pub static ref PARTS: HashMap<usize, Part> = {
+        [COLORS, FLOORS, WALLS, DOORS, OBJECTS]
+            .concat()
+            .chunks(16)
+            .map(|chunk| Part::new(chunk.try_into().unwrap()))
+            .enumerate()
+            .collect()
+    };
+}

@@ -1,1 +1,44 @@
-{"tilesets":[{"firstgid":1,"source":"../tiles.json"}],"tileheight":16,"width":10,"orientation":"orthogonal","type":"map","tilewidth":16,"renderorder":"right-down","compressionlevel":-1,"tiledversion":"1.7.0","nextobjectid":1,"layers":[{"y":0,"name":"template","width":10,"type":"tilelayer","opacity":1,"id":1,"x":0,"visible":true,"height":8,"data":[16,8,8,8,8,8,8,8,8,17,10,5,5,5,5,5,5,5,5,11,10,5,5,5,5,5,5,5,5,11,10,5,5,5,5,5,5,5,5,11,10,5,5,5,5,5,5,5,5,11,10,5,5,5,5,5,5,5,5,11,10,5,5,5,5,5,5,5,5,11,18,9,9,9,9,9,9,9,9,19]},{"y":0,"name":"layout","width":10,"type":"tilelayer","opacity":1,"id":2,"x":0,"visible":true,"height":8,"data":[3,16,0,0,0,0,0,0,0,0,16,20,1,43,43,43,43,1,1,0,0,1,43,6,6,6,6,43,43,0,0,1,6,36,6,6,6,6,6,0,0,1,6,6,6,6,6,6,6,47,0,1,44,6,6,6,6,44,44,0,18,22,1,44,44,44,44,1,1,0,3,18,0,0,0,0,0,0,0,0]}],"version":"1.6","infinite":false,"height":8,"nextlayerid":3}
+{ "compressionlevel":-1,
+ "height":8,
+ "infinite":false,
+ "layers":[
+        {
+         "data":[16, 8, 8, 8, 8, 8, 8, 8, 8, 17, 10, 6, 6, 6, 6, 6, 6, 6, 6, 11, 10, 6, 6, 6, 6, 6, 6, 6, 6, 11, 10, 6, 6, 6, 6, 6, 6, 6, 6, 11, 10, 6, 6, 6, 6, 6, 6, 6, 6, 11, 10, 6, 6, 6, 6, 6, 6, 6, 6, 11, 10, 6, 6, 6, 6, 6, 6, 6, 6, 11, 18, 9, 9, 9, 9, 9, 9, 9, 9, 19],
+         "height":8,
+         "id":1,
+         "name":"template",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":true,
+         "width":10,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "data":[3, 16, 0, 0, 0, 0, 0, 0, 0, 0, 16, 23, 1, 43, 43, 43, 43, 1, 1, 0, 0, 1, 43, 0, 0, 0, 0, 43, 43, 0, 0, 1, 0, 36, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 47, 0, 1, 44, 0, 0, 0, 0, 44, 44, 0, 18, 21, 1, 44, 44, 44, 44, 1, 1, 0, 3, 18, 0, 0, 0, 0, 0, 0, 0, 0],
+         "height":8,
+         "id":2,
+         "name":"layout",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":true,
+         "width":10,
+         "x":0,
+         "y":0
+        }],
+ "nextlayerid":3,
+ "nextobjectid":1,
+ "orientation":"orthogonal",
+ "renderorder":"right-down",
+ "tiledversion":"1.7.0",
+ "tileheight":16,
+ "tilesets":[
+        {
+         "firstgid":1,
+         "source":"..\/tiles.json"
+        }],
+ "tilewidth":16,
+ "type":"map",
+ "version":"1.6",
+ "width":10
+}

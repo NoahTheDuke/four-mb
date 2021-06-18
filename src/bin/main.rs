@@ -32,7 +32,7 @@ async fn main() {
         let w = image.width();
         let h = image.height();
 
-        let room = ROOMS.get("example").unwrap();
+        let room = ROOMS.get("3-7").unwrap();
 
         for col in 0..COLUMNS {
             for row in 0..ROWS {

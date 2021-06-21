@@ -145,15 +145,12 @@
         template (->> (:layers file)
                       (remove #(= "layout" (:name %)))
                       (first))
-        wall-shape (if (= "template" (:name template))
-                     (list true true true true)
-                     (let [template (last (str/split (:name template) #"-"))
-                           T (str/includes? template "T")
-                           R (str/includes? template "R")
-                           B (str/includes? template "B")
-                           L (str/includes? template "L")]
-                       (list T R B L)))
         floor-tile (dec (nth (:data template) 11))
+        wall-shape (list
+                     (not= floor-tile (dec (nth (:data template) 4)))
+                     (not= floor-tile (dec (nth (:data template) 39)))
+                     (not= floor-tile (dec (nth (:data template) 74)))
+                     (not= floor-tile (dec (nth (:data template) 30))))
         ]
     (when (seq (remove #(neg? (last %)) tiles))
       (println (str

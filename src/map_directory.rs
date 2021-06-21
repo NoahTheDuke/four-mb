@@ -247,6 +247,36 @@ lazy_static! {
         );
 
         rooms.insert(
+            String::from("3-3"),
+            Room::new(
+                WallShape(true, true, true, false),
+                4,
+                vec![
+                    pt(2, 3, 32),
+                    pt(3, 2, 32),
+                    pt(3, 5, 32),
+                    pt(4, 4, 32),
+                    pt(5, 3, 32),
+                    pt(6, 2, 32),
+                    pt(6, 4, 5),
+                    pt(6, 5, 32),
+                    pt(7, 4, 32),
+                    pt(8, 1, 34),
+                    pt(8, 6, 34),
+                    ln(0, 2, 5, 83),
+                    ln(0, 3, 5, 82),
+                    ln(0, 5, 51, 83),
+                    ln(0, 6, 5, 88),
+                    ln(3, 3, 5, 82),
+                    ln(4, 2, 5, 82),
+                    ln(6, 3, 5, 82),
+                    ln(7, 2, 5, 92),
+                    ln(7, 5, 5, 92),
+                ],
+            ),
+        );
+
+        rooms.insert(
             String::from("3-4"),
             Room::new(
                 WallShape(false, true, false, false),
@@ -578,6 +608,7 @@ lazy_static! {
                 vec![pt(0, 4, 4), pt(5, 0, 4)],
             ),
         );
+
         rooms
     };
 }

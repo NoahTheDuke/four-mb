@@ -1,6 +1,7 @@
 (ns convert
   (:require [cheshire.core :as json]
-            [babashka.fs :as fs]))
+            [babashka.fs :as fs]
+            [clojure.java.shell :refer [sh]]))
 
 ; (def old->new
 ;   {
@@ -76,15 +77,18 @@
 
 (def files (map str (fs/glob "assets/dungeon-1" "*.json")))
 
-(doseq [filepath files
-        :let [file (json/parse-string (slurp filepath) true)]]
-  (let [new-file
-        (->> (:layers file)
-             (map (fn [layer]
-                    (assoc layer
-                           :data (mapv
-                                   #(get old->new % %)
-                                   (:data layer)))))
-             (assoc file :layers))]
-    (spit filepath
-          (json/generate-string new-file))))
+; (doseq [filepath files
+;         :let [file (json/parse-string (slurp filepath) true)]]
+;   (let [new-file
+;         (->> (:layers file)
+;              (map (fn [layer]
+;                     (assoc layer
+;                            :data (mapv
+;                                    #(get old->new % %)
+;                                    (:data layer)))))
+;              (assoc file :layers))]
+;     (spit filepath
+;           (json/generate-string new-file))))
+
+(doseq [filepath files]
+  (sh "jj" "-u" "-i" filepath "-o" filepath))

@@ -4,7 +4,7 @@ version = "0.1.0"
 authors = ["Noah Bogart <noah.bogart@hey.com>"]
 edition = "2018"
 license = "MPL-2.0"
-default-run = "main"
+default-run = "game"
 
 [dependencies]
 bitvec = "0.22.3"
@@ -18,5 +18,5 @@ macroquad = "0.3.5"
 # panic = "abort"
 
 [lib]
-name = "lib"
+name = "engine"
 path = "src/lib.rs"

@@ -1,6 +1,6 @@
 #![allow(dead_code, unused_variables)]
 
-use lib::prelude::*;
+use engine::prelude::*;
 use macroquad::prelude::*;
 
 static PIXEL_SIZE: f32 = 3.0;
@@ -19,12 +19,11 @@ fn window_conf() -> Conf {
 
 #[macroquad::main(window_conf)]
 async fn main() {
-    let w = screen_width() as usize;
-    let h = screen_height() as usize;
+    let w = (screen_width() / 3.) as usize;
+    let h = (screen_height() / 3.) as usize;
 
     let mut image = Image::gen_image_color(w as u16, h as u16, WHITE);
     let texture = Texture2D::from_image(&image);
-    let floor_tile = *TILESET.get(&4).unwrap();
 
     loop {
         clear_background(WHITE);
@@ -32,7 +31,7 @@ async fn main() {
         let w = image.width();
         let h = image.height();
 
-        let room = ROOMS.get("3-7").unwrap();
+        let room = ROOMS.get("6-5").unwrap();
 
         for col in 0..COLUMNS {
             for row in 0..ROWS {

@@ -1,6 +1,6 @@
 (ns data-munge
-  (:require [cheshire.core :as json]
-            [babashka.fs :as fs]
+  (:require [babashka.fs :as fs]
+            [cheshire.core :as json]
             [clojure.string :as str]))
 
 (def files (fs/glob "assets/dungeon-1" "*.json"))
@@ -151,44 +151,40 @@
                      (not= floor-tile (dec (nth (:data template) 39)))
                      (not= floor-tile (dec (nth (:data template) 74)))
                      (not= floor-tile (dec (nth (:data template) 30))))
+
+        pt-str (fn [x y] (format "%2d" (pt->tile [x y])))
         ]
     (when (seq (remove #(neg? (last %)) tiles))
       (println (str
-                 "rooms.insert(\n"
-                 (str "String::from(\"" (first (fs/split-ext filepath)) "\"),\n")
-                 "Room::new(\n"
-                 "WallShape(" (str/join ", " wall-shape) "),\n"
-                 (str floor-tile ",\n")
-                 "vec![\n"
+                 "{\n"
+                 "\"" (first (fs/split-ext filepath)) "\", (" (str/join ", " wall-shape) "), " floor-tile ";\n"
                  (when-let
                    [rows
                     (some->> points
                              (sort-by first)
                              (map (fn [[[x y]]]
-                                    (str "pt(" (str/join ", " [x y (pt->tile [x y])]) ")")))
+                                    (str "db " (str/join ", " [x y (pt-str x y)]))))
                              (seq)
-                             (str/join ",\n"))]
-                   (str rows ",\n"))
+                             (str/join ";\n"))]
+                   (str rows ";\n"))
                  (when-let
                    [rows
                     (some->> horizontal
                              (sort-by first)
                              (map (fn [[[x y] length]]
-                                    (str "ln(" (str/join ", " [x y (pt->tile [x y]) (+ 80 length)]) ")")))
+                                    (str "db " (str/join ", " [x y (pt-str x y) (+ 80 length)]))))
                              (seq)
-                             (str/join ",\n"))]
-                   (str rows ",\n"))
+                             (str/join ";\n"))]
+                   (str rows ";\n"))
                  (when-let
                    [rows
                     (some->> vertical
                              (sort-by first)
                              (map (fn [[[x y] length]]
-                                    (str "ln(" (str/join ", " [x y (pt->tile [x y]) (+ 90 length)]) ")")))
+                                    (str "db " (str/join ", " [x y (pt-str x y) (+ 90 length)]))))
                              (seq)
-                             (str/join ",\n"))]
-                   (str rows ",\n"))
-                 "],\n"
-                 ")\n"
-                 ");\n"
+                             (str/join ";\n"))]
+                   (str rows ";\n"))
+                 "},\n"
                  )))
     ))

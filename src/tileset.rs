@@ -124,6 +124,14 @@ lazy_static! {
             (116, 4, 116, 116),
             // 59 Button
             (118, 119, 120, 121),
+            // 60 Top wall torches
+            (117, 117, 102, 102),
+            // 61 Rigth wall torches
+            (103, 117, 103, 117),
+            // 62 Bottom wall torches
+            (117, 104, 117, 104),
+            // 63 Left wall torches
+            (105, 105, 117, 117),
             ]
                 .iter()
                 .enumerate()

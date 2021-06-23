@@ -7,6 +7,7 @@ pub struct Map {
 }
 
 /// top, right, bottom, left
+#[derive(Debug)]
 pub struct WallShape(pub bool, pub bool, pub bool, pub bool);
 
 impl Default for WallShape {
@@ -87,6 +88,7 @@ fn build_room(instructions: &Vec<Inst>, tiles: &mut Vec<Tile>) {
     }
 }
 
+#[derive(Debug)]
 pub struct Room {
     pub wall_shape: WallShape,
     pub floor_tile: Tile,
